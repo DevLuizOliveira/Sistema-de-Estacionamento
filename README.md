@@ -32,7 +32,7 @@ O sistema foi construído sem dependências externas, utilizando apenas módulos
 ##  Como Executar
 
 ### Pré-requisitos
-* Python 3.x instalado na máquina.
+* Python 3.12.2 instalado na máquina.
 
 ### Passos
 1. Clone este repositório ou baixe os arquivos para um diretório local.
@@ -45,9 +45,8 @@ O sistema foi construído sem dependências externas, utilizando apenas módulos
 
 ##  Estrutura de Arquivos
 
-/
-├── estacionamento.py   # Código-fonte principal com a lógica do sistema.
-├── Dados.json          # (Gerado automaticamente) Banco de dados das vagas.
-├── Config.json         # (Gerado automaticamente) Parâmetros estruturais do pátio.
-├── estaciona4.log      # (Gerado automaticamente) Histórico de atividades do sistema.
+├── estacionamento.py   # Código-fonte principal com a lógica do sistema.</br>
+├── Dados.json          # (Gerado automaticamente) Banco de dados das vagas.</br>
+├── Config.json         # (Gerado automaticamente) Parâmetros estruturais do pátio.</br>
+├── estaciona4.log      # (Gerado automaticamente) Histórico de atividades do sistema.</br>
 └── README.md           # Documentação do projeto.
