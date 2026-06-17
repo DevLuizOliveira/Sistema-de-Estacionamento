@@ -1,8 +1,11 @@
+
 # 🚗 Sistema de Gerenciamento de Estacionamento Inteligente
+
 
 **Projeto Acadêmico - 1º Semestre** **Orientador:** Prof. Celso  
 
 ---
+
 
 ## 📝 Sobre o Projeto
 
@@ -52,12 +55,13 @@ O sistema foi construído seguindo preceitos de portabilidade, utilizando apenas
 ## 💻 Como Executar
 
 ### Pré-requisitos
-* Python 3.x instalado no sistema operacional.
+* Python 3.12.2 instalado no sistema operacional.
 
 ### Passos para Execução
 1. Baixe ou clone os arquivos do projeto para um diretório local.
 2. Abra o seu terminal (ou prompt de comando) e navegue até a pasta do projeto.
 3. Execute o script principal utilizando o comando:
+
    ```bash
    python estacionamento.py
 
