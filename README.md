@@ -69,9 +69,9 @@ O sistema foi construído seguindo preceitos de portabilidade, utilizando apenas
 
 ##  Estrutura de Arquivos
 
-/
-├── estacionamento.py   # Código-fonte principal com a lógica do sistema.
-├── Dados.json          # (Gerado automaticamente) Banco de dados das vagas.
-├── Config.json         # (Gerado automaticamente) Parâmetros estruturais do pátio.
-├── estaciona4.log      # (Gerado automaticamente) Histórico de atividades do sistema.
+
+├── estacionamento.py   # Código-fonte principal com a lógica do sistema.</br>
+├── Dados.json          # (Gerado automaticamente) Banco de dados das vagas.</br>
+├── Config.json         # (Gerado automaticamente) Parâmetros estruturais do pátio.</br>
+├── estaciona4.log      # (Gerado automaticamente) Histórico de atividades do sistema.</br>
 └── README.md           # Documentação do projeto.
