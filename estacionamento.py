@@ -6,7 +6,10 @@ import json     # Utilizado para manipulação e persistência de dados em forma
 import os       # Permite interação com o Sistema Operacional (ex: verificação da existência de arquivos).
 import random   # Utilizado para geração de valores aleatórios no algoritmo de probabilidade de colisão.
 import re       # Biblioteca de Expressões Regulares, utilizada para validação de padrões textuais (formato de placa).
-
+import qrcode    # Biblioteca de terceiros para geração de códigos QR, que podem ser usados para tickets ou identificação rápida.
+from fpdf import FPDF  # Biblioteca de terceiros para geração de arquivos PDF 
+from fpdf.enums import XPos, YPos  # Importa enums para controle preciso de posicionamento no PDF (margens, quebras de linha, etc).
+from datetime import datetime  # Utilizado para manipulação de datas e horas, especialmente para carimbar registros de log e relatórios.
 # ==============================================================================
 # CONFIGURAÇÕES GLOBAIS (Constantes e Parâmetros do Sistema)
 # ==============================================================================
@@ -64,6 +67,87 @@ def salvar_config(config):
     """Sincroniza as configurações com o arquivo físico."""
     with open(ARQUIVO_CONFIG, 'w', encoding='utf-8') as arquivo:
         json.dump(config, arquivo, indent=4, ensure_ascii=False)
+
+
+
+
+def gerar_ticket_entrada(vaga, placa, marca, tipo_vaga):
+    """Gera um ticket térmico (PDF) com um QR Code funcional escaneável."""
+
+    pasta = "ticketsentrada"
+
+    if not os.path.exists(pasta):
+        os.makedirs(pasta)
+
+    # Configurando tamanho estilo 'bobina térmica' (80mm x 140mm)
+    pdf = FPDF(format=(80, 140))
+    pdf.add_page()
+    
+    # Margens curtas
+    pdf.set_margins(5, 5, 5)
+    pdf.set_auto_page_break(auto=True, margin=5)
+    
+    # --- Cabeçalho ---
+    pdf.set_font("Courier", "B", 14)
+    pdf.cell(0, 6, "ESTACIONAMENTO", new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+    pdf.cell(0, 6, "INTELIGENTE", new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+    
+    pdf.set_font("Courier", "", 10)
+    pdf.cell(0, 5, "-" * 32, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+    
+    pdf.set_font("Courier", "B", 12)
+    pdf.cell(0, 6, "TICKET DE ENTRADA", new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+    
+    pdf.set_font("Courier", "", 10)
+    pdf.cell(0, 5, "-" * 32, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+    
+    # --- Dados da Entrada ---
+    agora = datetime.now().strftime("%d/%m/%Y %H:%M")
+    pdf.set_font("Courier", "B", 10)
+    pdf.cell(0, 6, f"Data/Hora: {agora}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(0, 6, f"Placa:     {placa}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(0, 6, f"Marca:     {marca}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    
+    vaga_str = f"{int(vaga):02d}"
+    pdf.cell(0, 6, f"Vaga:      {vaga_str} ({tipo_vaga.upper()})", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    
+    pdf.cell(0, 5, "-" * 32, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+    
+    # --- Aviso / Rodapé ---
+    pdf.set_font("Courier", "", 8)
+    pdf.multi_cell(0, 4, "Guarde este ticket no painel.\nA perda estara sujeita\na taxa extra de R$ 50,00.", new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+    
+    # ==========================================
+    # GERAÇÃO DO QR CODE FUNCIONAL
+    # ==========================================
+    
+    # O que o celular vai ler quando escanear o código:
+    dados_qr = f"SISTEMA ESTACIONA4\nPlaca: {placa}\nVaga: {vaga_str}\nEntrada: {agora}"
+    
+    # Cria a imagem do QR Code
+    img_qr = qrcode.make(dados_qr)
+    
+    # Salva a imagem temporariamente na pasta
+    nome_img_temp = f"temp_qr_{placa}.png"
+    img_qr.save(nome_img_temp)
+    
+    # Adiciona a imagem no PDF (Largura 40mm, centralizado no papel de 80mm -> X=20)
+    pdf.ln(2)
+    pdf.image(nome_img_temp, x=20, w=40)
+    
+    # Apaga a imagem temporária do computador para manter a pasta limpa
+    if os.path.exists(nome_img_temp):
+        os.remove(nome_img_temp)
+        
+    # ==========================================
+    
+    # Salva o arquivo final
+    nome_arquivo = os.path.join(pasta, f"ticket_{placa}_{vaga_str}.pdf")
+    pdf.output(nome_arquivo)
+    print(f"Ticket de entrada gerado: {nome_arquivo}")
+
+
+
 
 
 def menu_configuracao(config):
@@ -286,6 +370,8 @@ def main():
                 "marca": marca_carro
             }
             salvar_banco(estacionamento) 
+
+            gerar_ticket_entrada(vaga, placa, marca_carro, tipo_veiculo)
 
             logging.info(f"ENTRADA: {tipo_veiculo} {marca_carro} (Placa {placa}) alocado na vaga {vaga}.")
             print("Registro de entrada processado com sucesso!")
