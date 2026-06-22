@@ -2,3 +2,5 @@ Dados.json
 Config.json
 estaciona4.log
 ticketsentrada/
+ticketssaida/
+__pycache__/
