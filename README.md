@@ -77,9 +77,9 @@ O sistema utiliza bibliotecas externas modernas combinadas com o ecossistema nat
 
 ## Estrutura de Arquivos
 
-├── estacionamento.py    # Código-fonte principal com a lógica do sistema.
-├── config.py            # Arquivo de configuração de credenciais do MySQL.
-├── ticketsentrada/      # (Gerado automaticamente) Diretório de PDFs de entrada.
-├── ticketssaida/        # (Gerado automaticamente) Diretório de PDFs de saída.
-├── estaciona4.log       # (Gerado automaticamente) Histórico de atividades do sistema.
-└── README.md            # Documentação do projeto.
+├── estacionamento.py    # Código-fonte principal com a lógica do sistema.<br>
+├── config.py            # Arquivo de configuração de credenciais do MySQL.<br>
+├── ticketsentrada/      # (Gerado automaticamente) Diretório de PDFs de entrada.<br>
+├── ticketssaida/        # (Gerado automaticamente) Diretório de PDFs de saída.<br>
+├── estaciona4.log       # (Gerado automaticamente) Histórico de atividades do sistema.<br>
+└── README.md            # Documentação do projeto.<br>
